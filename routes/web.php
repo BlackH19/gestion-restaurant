@@ -13,13 +13,6 @@ use App\Http\Controllers\CaissierController;
 use App\Http\Controllers\ServeurController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-
-
 
 
 // Page d'accueil publique
@@ -67,9 +60,11 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 Route::middleware(['auth', 'check.role:admin'])->prefix('admin')->group(function () {
+    Route::resource('users', UserController::class);
     Route::get('/users', [UserController::class, 'index'])->name('admin.users');
     Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('users/index', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
@@ -97,6 +92,7 @@ Route::middleware(['auth', 'check.role:serveur,admin'])->group(function () {
     Route::post('/commandes/{commande}/calculer-total', [CommandeController::class, 'calculerTotal'])->name('commandes.calculer-total');
     Route::get('/serveur/commande/create', [CommandeController::class, 'create'])
         ->name('serveur.commande.create');
+    Route::get('/commande/service', [CommandeController::class, 'service'])->name('serveur.commande.service');
 });
 
 

@@ -9,8 +9,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', '!=', 'admin')->get();
+        $users = User::all();
         return view('admin.users.index', compact('users'));
+    }
+
+    public function show(User $user)
+    {
+        return view('admin.users.show', compact('user'));
     }
 
     public function edit(User $user)
@@ -29,7 +34,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour');
+        return redirect()->route('admin.users')->with('success', 'Utilisateur mis à jour');
     }
 
     public function create()
@@ -51,12 +56,14 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
         ]);
 
-        $user->assignRole($request->role);
+        // Si vous utilisez Spatie Laravel Permissions
+        // $user->assignRole($request->role);
 
-        return redirect()->route('admin.users')->with('success', 'Utilisateur créé');
+        return redirect()->route('admin.users')->with('success', 'Utilisateur créé avec succès');
     }
 
     public function destroy(User $user)

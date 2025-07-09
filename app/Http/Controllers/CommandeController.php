@@ -89,7 +89,7 @@ class CommandeController extends Controller
 
         return redirect()->route('commandes.show', $commande)->with('success', 'Commande mise à jour.');
     }
-
+    
     public function valider(Commande $commande)
     {
         $commande->statut = 'terminee';

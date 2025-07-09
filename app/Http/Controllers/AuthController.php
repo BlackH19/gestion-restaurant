@@ -57,9 +57,9 @@ return back()->withErrors([
      // Afficher le formulaire d'inscription (réservé à l'admin)
     public function showRegisterForm()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Accès réservé à l\'administrateur');
-        }
+        // if (!Auth::check() || Auth::user()->role !== 'admin') {
+        //     abort(403, 'Accès réservé à l\'administrateur');
+        // }
         
         return view('auth.register');
     }
@@ -67,9 +67,9 @@ return back()->withErrors([
     // Traiter l'inscription
     public function register(Request $request)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Accès réservé à l\'administrateur');
-        }
+        // if (!Auth::check() || Auth::user()->role !== 'admin') {
+        //     abort(403, 'Accès réservé à l\'administrateur');
+        // }
 
         $request->validate([
             'name' => 'required|string|max:255',

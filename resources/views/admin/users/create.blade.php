@@ -25,6 +25,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="role" class="form-label">Rôle</label>
                 <select name="role" id="role" class="form-control" required>
                     <option value="admin">Admin</option>
@@ -36,7 +41,5 @@
             <button type="submit" class="btn btn-success">Créer</button>
             <a href="{{ route('admin.users') }}" class="btn btn-secondary">Retour</a>
         </form>
-    </div>
-    </form>
     </div>
 @endsection

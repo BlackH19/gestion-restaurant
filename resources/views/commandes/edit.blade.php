@@ -64,7 +64,7 @@
 </div>
 @verbatim
 <script>
-    let platIndex = {{ count($commande->plats) }};
+    //let platIndex = count($commande->plats) ;
 
     document.getElementById('add-plat').addEventListener('click', function () {
         const wrapper = document.getElementById('plats-wrapper');

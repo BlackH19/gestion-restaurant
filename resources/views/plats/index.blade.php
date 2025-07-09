@@ -3,12 +3,14 @@
 @section('content')
 <div class="container">
     <h1>Gestion des Plats</h1>
-
-    <div class="mb-4">
+    @if (auth()->user()->isAdmin())
+        <div class="mb-4">
         <a href="{{ route('plats.create') }}" class="btn btn-primary">
             Ajouter un nouveau plat
         </a>
     </div>
+    @endif
+
 
     <div class="card">
         <div class="card-header">Liste des plats</div>
@@ -21,6 +23,7 @@
                         <th>Quantité disponible</th>
                         <th>Commandes associées</th>
                         <th>Actions</th>
+                        <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +35,7 @@
                         <td>
                             @if($plat->commandes && $plat->commandes->count())
                                 @foreach($plat->commandes as $commande)
-                                    <span class="badge bg-info text-white">Commande #{{ $commande->id }}</span>
+                                    <span class="badge bg-info text-white">#{{ $commande->id }}</span>
                                 @endforeach
                             @else
                                 <span class="badge bg-secondary">Aucune</span>
@@ -41,6 +44,13 @@
                         <td>
                             <a href="{{ route('plats.show', $plat) }}" class="btn btn-sm btn-info">Voir</a>
                             <a href="{{ route('plats.edit', $plat) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        </td>
+                        <td>
+                            @if($plat->quantite > 0)
+                                <span class="badge bg-success">Disponible</span>
+                            @else
+                                <span class="badge bg-danger">Indisponible</span>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

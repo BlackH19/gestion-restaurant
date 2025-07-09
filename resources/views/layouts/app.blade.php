@@ -7,6 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gestion Restaurant - @yield('title')</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -101,7 +103,7 @@
             height: 100vh;
             width: 280px;
             background: var(--sidebar-bg);
-            padding-top: 80px;
+            padding-top: 20px;
             z-index: 1000;
             transition: var(--transition);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -153,6 +155,24 @@
             padding: 2rem;
             min-height: 100vh;
             transition: var(--transition);
+        }
+
+        /* Responsive Sidebar */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: var(--transition);
+                box-shadow: 0 0 0 100vw rgba(30, 41, 59, 0.5);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content,
+            .footer {
+                margin-left: 0 !important;
+            }
         }
 
         /* Cards modernes */
@@ -361,6 +381,7 @@
                                 <i class="fas fa-user text-white"></i>
                             </div>
                             {{ auth()->user()->name }}
+              
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
@@ -388,52 +409,64 @@
         </div>
     </nav> -->
 
+    <!-- Bouton pour mobile -->
+    <button class="btn btn-primary d-lg-none" id="sidebarToggle" style="position:fixed;top:20px;left:20px;z-index:1100;"
+        onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
     <!-- Sidebar -->
     @auth
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header d-flex align-items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo"
-                    style="height: 40px; width: 40px; object-fit: contain; margin-right: 12px;">
-                <h6 class="text-white-50 text-uppercase mb-0">{{ config('app.name', 'Nom du Restaurant') }}</h6>
+        <aside class="sidebar d-flex flex-column justify-content-between" id="sidebar">
+            <div>
+                <div class="sidebar-header d-flex flex-column justify-content-center align-items-center">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo"
+                        style="height: 100px; width: 100px; object-fit: contain;">
+                    <span style="color: #fff; font-size: 1.3rem; font-weight: bold; margin-top: 10px; letter-spacing: 1px;">
+                        Gestion Restaurant
+                    </span>
+                </div>
+                <nav class="sidebar-menu">
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i>Dashboard Admin
+                        </a>
+                    @elseif(auth()->user()->isServeur())
+                        <a href="{{ route('serveur.dashboard') }}"
+                            class="sidebar-item {{ request()->routeIs('serveur.dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i>Dashboard Serveur
+                        </a>
+                    @else
+                        <a href="{{ route('caissier.dashboard') }}"
+                            class="sidebar-item {{ request()->routeIs('caissier.dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i>Dashboard Caissier
+                        </a>
+                    @endif
+                    <a href="{{ route('commandes.index') }}"
+                        class="sidebar-item {{ request()->routeIs('commandes.*') ? 'active' : '' }}">
+                        <i class="fas fa-list-alt"></i>Commandes
+                    </a>
+                    <a href="{{ route('plats.index') }}"
+                        class="sidebar-item {{ request()->routeIs('plats.*') ? 'active' : '' }}">
+                        <i class="fas fa-utensils"></i>Plats
+                    </a>
+                    @if(auth()->user()->isCaissier() || auth()->user()->isAdmin())
+                    <a href="{{ route('mouvements-caisse.index') }}"
+                        class="sidebar-item {{ request()->routeIs('mouvements-caisse.*') ? 'active' : '' }}">
+                        <i class="fas fa-cash-register"></i>Gestion Caisse
+                    </a>
+                    @endif
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.users') }}"
+                            class="sidebar-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                            <i class="fas fa-users-cog"></i>Utilisateurs
+                        </a>
+                    @endif
+                </nav>
             </div>
-            <nav class="sidebar-menu">
-                @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>Dashboard Admin
-                    </a>
-                @elseif(auth()->user()->isServeur())
-                    <a href="{{ route('serveur.dashboard') }}"
-                        class="sidebar-item {{ request()->routeIs('serveur.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>Dashboard Serveur
-                    </a>
-                @else
-                    <a href="{{ route('caissier.dashboard') }}"
-                        class="sidebar-item {{ request()->routeIs('caissier.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>Dashboard Caissier
-                    </a>
-                @endif
-                <a href="{{ route('commandes.index') }}"
-                    class="sidebar-item {{ request()->routeIs('commandes.*') ? 'active' : '' }}">
-                    <i class="fas fa-list-alt"></i>Commandes
-                </a>
-                <a href="{{ route('plats.index') }}"
-                    class="sidebar-item {{ request()->routeIs('plats.*') ? 'active' : '' }}">
-                    <i class="fas fa-utensils"></i>Plats
-                </a>
-                <a href="{{ route('mouvements-caisse.index') }}"
-                    class="sidebar-item {{ request()->routeIs('mouvements-caisse.*') ? 'active' : '' }}">
-                    <i class="fas fa-cash-register"></i>Gestion Caisse
-                </a>
-                @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.users') }}"
-                        class="sidebar-item {{ request()->routeIs('admin.*') ? 'active' : '' }}">
-                        <i class="fas fa-users-cog"></i>Utilisateurs
-                    </a>
-                @endif
-
+            <div>
                 <!-- Menu utilisateur en bas -->
-                <div class="dropdown w-100 mb-2" style="position: absolute; bottom: 85px; left: 0; padding: 0 1rem;">
+                <div class="dropdown w-100 mb-2 px-3">
                     <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#"
                         id="sidebarUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2"
@@ -466,14 +499,16 @@
                         </li>
                     </ul>
                 </div>
-                <form action="{{ route('logout') }}" method="POST" class="w-100"
-                    style="position: absolute; bottom: 30px; left: 0; padding: 0 1rem;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger w-100">
-                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
-                    </button>
-                </form>
-            </nav>
+                <!-- Bouton de déconnexion en bas (optionnel si déjà dans le menu) -->
+                <!--
+            <form action="{{ route('logout') }}" method="POST" class="w-100 px-3 mb-3">
+                @csrf
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                </button>
+            </form>
+            -->
+            </div>
         </aside>
     @endauth
 
