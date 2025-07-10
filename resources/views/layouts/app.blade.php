@@ -457,6 +457,12 @@
                     </a>
                     @endif
                     @if(auth()->user()->isAdmin())
+                        <a href="{{ route('ingredients.index') }}"
+                            class="sidebar-item {{ request()->routeIs('admin.ingredients.*') ? 'active' : '' }}">
+                            <i class="fas fa-carrot"></i>Ingrédients
+                        </a>
+                    @endif
+                    @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.users') }}"
                             class="sidebar-item {{ request()->routeIs('admin.users') ? 'active' : '' }}">
                             <i class="fas fa-users-cog"></i>Utilisateurs

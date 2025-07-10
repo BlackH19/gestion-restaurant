@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plat;
 use App\Models\Commande;
+use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
 class PlatController extends Controller
@@ -16,8 +17,9 @@ class PlatController extends Controller
 
     public function create()
     {
-        $commandes = Commande::all(); // récupère les commandes
-        return view('plats.create', compact('commandes')); // passe la variable à la vue
+        $ingredients = Ingredient::all();
+        $commandes = Commande::all();
+        return view('plats.create', compact('ingredients', 'commandes'));
     }
 
     public function store(Request $request)
@@ -40,7 +42,8 @@ class PlatController extends Controller
 
     public function edit(Plat $plat)
     {
-        return view('plats.edit', compact('plat'));
+        $commandes = Commande::cursor(); // Utilise un curseur pour les grosses tables
+        return view('plats.edit', compact('plat', 'commandes'));
     }
 
     public function update(Request $request, Plat $plat)
