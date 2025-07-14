@@ -59,7 +59,6 @@ class DatabaseSeeder extends Seeder
         // Création du plat ensuite
         $carbonara = Plat::create([
             'nom_plat' => 'Spaghetti Carbonara',
-            'quantite' => 1,
             'prix_unitaire' => 12.99
         ]);
 

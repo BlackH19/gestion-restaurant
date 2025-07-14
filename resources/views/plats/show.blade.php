@@ -11,7 +11,7 @@
                     <p><strong>Nom:</strong> {{ $plat->nom_plat }}</p>
                     <p><strong>Prix unitaire:</strong> {{ number_format($plat->prix_unitaire, 0,   ',', ' ') }}  FCFA</p>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <p><strong>Quantité disponible:</strong> {{ $plat->quantite }}</p>
                     <p><strong>Statut:</strong> 
                         @if($plat->quantite > 0)
@@ -20,7 +20,7 @@
                             <span class="badge badge-danger">Épuisé</span>
                         @endif
                     </p>
-                </div>
+                </div> -->
             </div>
             
             @if($plat->commande)

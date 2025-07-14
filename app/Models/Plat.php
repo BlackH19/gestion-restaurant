@@ -9,7 +9,7 @@ class Plat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom_plat', 'quantite', 'prix_unitaire'];
+    protected $fillable = ['nom_plat', 'prix_unitaire'];
 
     // Relation avec les commandes (pivot : commande_plat)
     public function commandes()

@@ -21,8 +21,8 @@
                                 <th>Date/Heure</th>
                                 <th>Serveur</th>
                                 <th>Total (FCFA)</th>
-                                <th>Actions</th>
                                 <th>Statut</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,22 +33,6 @@
                                     <td>{{ $commande->serveur->name ?? 'N/A' }}</td>
                                     <td>{{ number_format($commande->total, 0, ',', ' ') }}</td>
                                     <td>
-                                        <a href="{{ route('commandes.show', $commande) }}" class="btn btn-sm btn-info">Voir</a>
-                                        @if(ucfirst($commande->statut ?? '') == 'En_attente')
-                                            <a href="{{ route('commandes.edit', $commande) }}"
-                                                class="btn btn-sm btn-warning">Modifier</a>
-                                            <form action="{{ route('commandes.valider', $commande) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-success">Valider</button>
-                                            </form>
-                                            <form action="{{ route('commandes.annuler', $commande) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Annuler cette commande ?')">Annuler</button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                    <td>
                                         @if  (ucfirst(string: $commande->statut ?? '') == 'En_attente')
                                             <span class="badge bg-warning">En cours</span>
                                         @elseif(ucfirst(string: $commande->statut ?? '') == 'Terminee')
@@ -57,6 +41,24 @@
                                             <span class="badge bg-danger">Annulée</span>
                                         @else
                                             <span class="badge bg-secondary">Statut inconnu</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('commandes.show', $commande) }}" class="btn btn-sm btn-info">Voir</a>
+                                        @if(ucfirst($commande->statut ?? '') == 'En_attente')
+                                            <a href="{{ route('commandes.edit', $commande) }}"
+                                                class="btn btn-sm btn-warning">Modifier</a>
+                                            <form action="{{ route('commandes.valider', $commande) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-success">Valider</button>
+                                            </form>
+                                            <form action="{{ route('commandes.annuler', $commande) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Annuler cette commande ?')">Annuler</button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

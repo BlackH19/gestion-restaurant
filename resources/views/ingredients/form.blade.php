@@ -9,8 +9,26 @@
 </div>
 
 <div class="form-group">
-    <label>Unité</label>
-    <input type="text" name="unite" class="form-control" value="{{ old('unite', $ingredient->unite ?? '') }}" required>
+    <label for="unite">Unité</label>
+    <select name="unite" id="unite" class="form-control" required>
+        <option value="">Sélectionner une unité</option>
+        @foreach(['g', 'kg', 'ml', 'L', 'unité', 'c.à.c', 'c.à.s', 'pincée', 'tasse'] as $unite)
+            <option value="{{ $unite }}" {{ old('unite', $ingredient->unite ?? '') == $unite ? 'selected' : '' }}>
+                @switch($unite)
+                    @case('g') Grammes (g) @break
+                    @case('kg') Kilogrammes (kg) @break
+                    @case('ml') Millilitres (ml) @break
+                    @case('L') Litres (L) @break
+                    @case('unité') Unité @break
+                    @case('c.à.c') Cuillère à café @break
+                    @case('c.à.s') Cuillère à soupe @break
+                    @case('pincée') Pincée @break
+                    @case('tasse') Tasse @break
+                    @default {{ $unite }}
+                @endswitch
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-group">

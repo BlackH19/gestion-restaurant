@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('plats', function (Blueprint $table) {
             $table->id();
             $table->string('nom_plat');
-            $table->integer('quantite');
             $table->decimal('prix_unitaire', 8, 2);
             $table->foreignId('commande_id')->nullable()->constrained('commandes')->onDelete('cascade');
             $table->timestamps();

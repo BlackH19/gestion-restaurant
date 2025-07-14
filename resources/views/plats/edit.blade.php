@@ -16,15 +16,11 @@
                             required>
                     </div>
 
-                    <div>
-                        
-                    </div>
-
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="quantite">Quantité disponible</label>
                         <input type="number" name="quantite" id="quantite" class="form-control"
                             value="{{ $plat->quantite }}" required>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="prix_unitaire">Prix unitaire ( FCFA)</label>

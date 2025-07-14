@@ -41,7 +41,7 @@
                         <td>{{ $mouvement->caissier->name }}</td>
                         <td>
                             <a href="{{ route('mouvements-caisse.show', $mouvement) }}" class="btn btn-sm btn-info">Voir</a>
-                            <a href="{{ route('mouvements-caisse.edit', $mouvement) }}" class="btn btn-sm btn-warning">Modifier</a>
+                            <!-- <a href="{{ route('mouvements-caisse.edit', $mouvement) }}" class="btn btn-sm btn-warning">Modifier</a> -->
                         </td>
                     </tr>
                     @endforeach
