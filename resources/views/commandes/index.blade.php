@@ -45,7 +45,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('commandes.show', $commande) }}" class="btn btn-sm btn-info">Voir</a>
-                                        @if(ucfirst($commande->statut ?? '') == 'En_attente')
+                                        @if(ucfirst($commande->statut ?? '') == 'En_attente' && auth()->user()->isAdmin() || auth()->user()->isServeur())
                                             <a href="{{ route('commandes.edit', $commande) }}"
                                                 class="btn btn-sm btn-warning">Modifier</a>
                                             <form action="{{ route('commandes.valider', $commande) }}" method="POST"
