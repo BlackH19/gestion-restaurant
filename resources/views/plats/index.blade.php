@@ -53,12 +53,14 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('plats.show', $plat) }}" class="btn btn-sm btn-info">Voir</a>
-                                    <a href="{{ route('plats.edit', $plat) }}" class="btn btn-sm btn-warning">Modifier</a>
-                                    <form action="{{ route('plats.destroy', $plat) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                                    </form>
+                                    @if (auth()->user()->isAdmin())
+                                        <a href="{{ route('plats.edit', $plat) }}" class="btn btn-sm btn-warning">Modifier</a>
+                                        <form action="{{ route('plats.destroy', $plat) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
