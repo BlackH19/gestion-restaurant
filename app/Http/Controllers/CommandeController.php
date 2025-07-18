@@ -65,16 +65,14 @@ class CommandeController extends Controller
     {
         $commande->load('plats');
         $plats = Plat::all();
-        $serveurs = \App\Models\User::where('role', 'serveur')->get();
 
-        return view('commandes.edit', compact('commande', 'plats', 'serveurs'));
+        return view('commandes.edit', compact('commande', 'plats'));
     }
 
     public function update(Request $request, Commande $commande)
     {
         $validated = $request->validate([
             'date_heure' => 'required|date',
-            'serveur_id' => 'required|exists:users,id',
             'plats' => 'required|array|min:1',
             'plats.*.id' => 'required|exists:plats,id',
             'plats.*.quantite' => 'required|integer|min:1',
@@ -82,7 +80,6 @@ class CommandeController extends Controller
 
             $commande->update([
                 'date_heure' => $validated['date_heure'],
-                'serveur_id' => $validated['serveur_id'],
             ]);
 
             $this->syncPlats($commande, $validated['plats']);
